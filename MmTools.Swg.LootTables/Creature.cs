@@ -45,8 +45,10 @@ namespace MmTools.Swg.LootTables
         public string? ConversationTemplate { get; set; }
         public List<string>? PrimaryAttacks { get; set; }
         public List<string>? SecondaryAttacks { get; set; }
-        public static Creature ParseCreature(LuaTable creatureTable)
+        public static Creature? ParseCreature(LuaTable creatureTable)
         {
+            if (creatureTable == null)
+                return null;
             Creature creature = new Creature
             {
                 ObjectName = creatureTable["objectName"] as string,
@@ -124,8 +126,7 @@ namespace MmTools.Swg.LootTables
                 long lootChance = 0;
                 if(lootGroupTable["lootChance"] is long)
                 {
-                    lootChance = (long)lootGroupTable["lootChance"];
-                    lootChance /= 100000;                    
+                    lootChance = (long)lootGroupTable["lootChance"];                    
                 }
                 LootGroup lootGroup = new LootGroup
                 {
@@ -147,8 +148,7 @@ namespace MmTools.Swg.LootTables
                  long lootChance = 0;
                 if(loot["chance"] is long)
                 {
-                    lootChance = (long)loot["chance"];
-                    lootChance /= 100000;
+                    lootChance = (long)loot["chance"];                    
                 }
                 Loot lootItem = new Loot
                 {
@@ -176,12 +176,12 @@ namespace MmTools.Swg.LootTables
     public class LootGroup
     {
         public List<Loot>? Groups { get; set; }
-        public decimal? LootChance { get; set; }
+        public double? LootChance { get; set; }
     }
 
     public class Loot
     {
         public string? Group { get; set; }
-        public decimal? Chance { get; set; }
+        public double? Chance { get; set; }
     }
 }
